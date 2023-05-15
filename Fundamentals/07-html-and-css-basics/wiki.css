@@ -1,0 +1,17 @@
+wiki-page, h1 {
+text-align: center;
+font-size: 42px;
+color: #3342FF;
+font-family: 'Franklin Gothic Medium';
+font-style: initial;
+}
+p {
+    color: #D8D7AE;
+    font-family: 'Arial Narrow';
+    font-style: oblique;
+}
+ol, ul {
+    font-style: italic;
+    color: #D8D7AE;
+    font-family: Arial;
+}
