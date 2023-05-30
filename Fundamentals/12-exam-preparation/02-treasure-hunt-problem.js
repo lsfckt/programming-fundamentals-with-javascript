@@ -2,41 +2,55 @@ function treasureProblem(commands) {
 
     let treasureChest = commands.shift().split('|');
     let index = 0;
+    let currCommand = commands[index];
 
-    while (commands !== "Yohoho!") {
-        if (commands[index].includes('Loot')) {
+    while (currCommand !== "Yohoho!") {
+        if (currCommand.includes('Loot')) {
 
-            let currLoot = commands[index].split(' ').splice(1);
+            let currLoot = currCommand.split(' ').splice(1);
 
             for (let i = 0; i < currLoot.length; i++) {
                 if (!treasureChest.includes(currLoot[i])) {
                     treasureChest.unshift(currLoot[i]);
                 }
             }
-        }
-        //	Remove the loot at the given position and add it at the end of the treasure chest. 
 
-        if (commands[index].includes('Drop')) {
-            let currDropCommand = commands[index].split(' ');
+        } else if (currCommand.includes('Drop')) {
+
+            let currDropCommand = currCommand.split(' ');
             let dropIndex = Number(currDropCommand.splice(1));
 
-            if (dropIndex < -200 || dropIndex > 200) {
+            if (dropIndex < 0 || dropIndex > treasureChest.length) {
+                currCommand = commands[index];
+                index++;
                 continue;
             } else {
                 let removedLoot = treasureChest.splice(dropIndex, 1);
                 let stringToAdd = removedLoot.join(' ');
                 treasureChest.push(stringToAdd);
             }
+
+        } else if (currCommand.includes('Steal')) {
+
+            let currStealCommand = currCommand.split(' ');
+            let countOfSteals = Number(currStealCommand.splice(1));
+
+            let stealedLoots = treasureChest.splice(-countOfSteals);
+            console.log(stealedLoots.join(', '));
         }
+
+        currCommand = commands[index];
         index++;
     }
 
+    if (treasureChest.length !== 0) {
+        
+        let stringOfTreasureItems = treasureChest.reduce((acc, num) => acc + num)
+        let sumOfTreasureItems = stringOfTreasureItems.length;
+        let avgTreasureGain = (sumOfTreasureItems / (treasureChest.length)).toFixed(2);
+        console.log(`Average treasure gain: ${avgTreasureGain} pirate credits.`);
+
+    } else {
+        console.log("Failed treasure hunt.");
+    }
 }
-treasureProblem([
-    "Gold|Silver|Bronze|Medallion|Cup",
-    "Loot Wood Gold Coins",
-    "Loot Silver Pistol",
-    "Drop 3",
-    "Steal 3",
-    "Yohoho!"
-])
