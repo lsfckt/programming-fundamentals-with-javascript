@@ -29,6 +29,5 @@ let returned = blackFlag([
     "10",
     "20",
     "380"
-])
-    ;
+]);
 console.log(returned);
